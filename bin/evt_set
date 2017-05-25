@@ -1,0 +1,14 @@
+#!/usr/bin/env python
+# file: evt_set
+import sys
+from SystemEvent import SystemEvent
+
+try:
+    event_name = sys.argv[1]
+except IndexError:
+    sys.stderr.write("Usage: evt_set <event_name>")
+    sys.exit(2)
+
+se = SystemEvent(event_name)
+se.set()
+sys.exit(0)
