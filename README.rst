@@ -1,5 +1,5 @@
-``SystemEvent``
-===============
+Introduction
+============
 
 ``SystemEvent`` provides a simple synchronization primitive for use across multiple
 processes. The ``SystemEvent`` object emulates the ``threading.Event`` API exactly. In
@@ -18,9 +18,9 @@ Usage
 =====
 
 ``SystemEvent`` uses named posix semaphores under the hood, so you need to choose event
-names that are unique to your application.
+names that are unique to your application. Any event references will use this unique name.
 
-From Python, use it *exactly* like you would use a `threading.Event` instances, with the
+From Python, use it *exactly* like you would use a ``threading.Event`` instances, with the
 main difference being that you need to give your event a name so that other processes can
 reference it.
 
@@ -40,8 +40,9 @@ In another console, set the event and note that the first event releases:
     >>> evt = SystemEvent.SystemEvent("my_event")
     >>> evt.set()
 
-All events blocking on "my_event" will be immediately released. Subsequent calls to
-``evt.wait()`` from any process will not block, since the event is now globally latched.
+All events blocking on "my_event" will be immediately released by this ``set()`` call.
+Subsequent calls to ``evt.wait()`` from any process will not block, since the event is now
+globally latched.
 
 To clear the event (so that calls to ``evt.wait()`` will block again), call
 ``evt.clear()``.
@@ -58,7 +59,7 @@ Three shell scripts are provided, with the following usage:
     evt_wait <event_name> [timeout_s]
 
     evt_set <event_name>
-    
+
     evt_clear <event_name>
 
 These scripts are thin shells over ``SystemEvent`` usage. The ``timeout_s`` option on
