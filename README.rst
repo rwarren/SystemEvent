@@ -56,7 +56,9 @@ Shell scripts
 Three shell scripts are provided, with the following usage:
 
     evt_wait <event_name> [timeout_s]
+
     evt_set <event_name>
+    
     evt_clear <event_name>
 
 These scripts are thin shells over ``SystemEvent`` usage. The ``timeout_s`` option on
