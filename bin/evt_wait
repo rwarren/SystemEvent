@@ -15,6 +15,10 @@ except Exception:
     sys.exit(2)
 
 se = SystemEvent(event_name)
-if not se.wait(timeout_s):
-    sys.exit(1)
+try:
+    if not se.wait(timeout_s):
+        sys.exit(1)
+except KeyboardInterrupt:
+    sys.stderr.write("\nevt_wait aborted!\n")
+    sys.exit(2)
 sys.exit(0)
