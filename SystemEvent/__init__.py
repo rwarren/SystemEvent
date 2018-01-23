@@ -1,7 +1,7 @@
 import posix_ipc  # TODO: eliminate this dependency (with ctypes)
 
 class SystemEvent(object):
-    def __init__(self, name):
+    def __init__(self, name, prefix = "SystemEvent."):
         """Inter-process Event object that follows threading.Event semantics.
         
         This uses a posix semaphore under the hood, and the name parameter will be the
@@ -12,8 +12,8 @@ class SystemEvent(object):
         set the SystemEvent.
         
         """
-        self._name = name
-        self._sem = posix_ipc.Semaphore(name, flags = posix_ipc.O_CREAT)
+        self._name = prefix + name
+        self._sem = posix_ipc.Semaphore(self._name, flags = posix_ipc.O_CREAT)
     
     def set(self):
         """Sets the event as having occurred.
