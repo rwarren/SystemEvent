@@ -10,7 +10,7 @@ with codecs.open('README.rst', encoding='utf-8') as f:
 
 setup(
     name = name,
-    version = "0.9.0",
+    version = "1.0.0",
     license = "MIT",
     description = "System-wide Event synchonization for posix (emulating the threading.Event api)",
     long_description = long_description,
