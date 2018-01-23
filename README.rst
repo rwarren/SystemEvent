@@ -6,7 +6,7 @@ processes. The ``SystemEvent`` object emulates the ``threading.Event`` API exact
 addition, simple scripts (``evt_set``, ``evt_wait``, and ``evt_clear``) are installed for
 easy usage from shell scripts.
 
-The main reason to uyse ``SystemEvent`` is in situations when you want processes to wait
+The main reason to use ``SystemEvent`` is in situations when you want processes to wait
 on other processes without the need for polling.
 
 Installation
