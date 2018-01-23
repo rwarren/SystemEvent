@@ -1,19 +1,30 @@
+import os
 import posix_ipc  # TODO: eliminate this dependency (with ctypes)
 
 class SystemEvent(object):
-    def __init__(self, name, prefix = "SystemEvent."):
+    def __init__(self, name, prefix = "SystemEvent.", mode = 0o666):
         """Inter-process Event object that follows threading.Event semantics.
         
         This uses a posix semaphore under the hood, and the name parameter will be the
         name of the semaphore. This must be unique, but known to other processes that
         want to use the SystemEvent/semaphore.
         
+        The backing semaphore will be created with the given prefix, and with permissions
+        determined by the given mode. The default mode allows the SystemEvent to be used
+        by any user on the system.
+
         Note that any incrementing/releasing of the underlying semaphore will effectively
         set the SystemEvent.
         
         """
         self._name = prefix + name
-        self._sem = posix_ipc.Semaphore(self._name, flags = posix_ipc.O_CREAT)
+        old_umask = os.umask(0) # so it doesn't interfere with our semaphore mode
+        try:
+            self._sem = posix_ipc.Semaphore(self._name,
+                                            mode = mode,
+                                            flags = posix_ipc.O_CREAT)
+        finally:
+            os.umask(old_umask)
     
     def set(self):
         """Sets the event as having occurred.
